@@ -32,6 +32,14 @@ string openAIEndpoint = configuration["OpenAI:Endpoint"] ??
                         throw new ArgumentException("Missing OpenAI:Endpoint");
 string engine = configuration["OpenAI:DeploymentName"] ??
                 throw new ArgumentException("Missing OpenAI:DeploymentName");
+
+string imageOpenAIKey = configuration["OpenAI:imageKey"] ??
+                   throw new ArgumentException("Missing OpenAI:imageKey");
+string imageOpenAIEndpoint = configuration["OpenAI:imageEndpoint"] ??
+                        throw new ArgumentException("Missing OpenAI:imageEndpoint");
+string imageEngine = configuration["OpenAI:ImageDeploymentName"] ??
+                     throw new ArgumentException("Missing OpenAI:ImageDeploymentName");
+
 string speechKey = configuration["Speech:Key"] ??
                    throw new ArgumentException("Missing Speech:Key");
 string speechRegion = configuration["Speech:Region"] ??
@@ -47,6 +55,12 @@ AzureOpenAIClient azureClient = new(
     new AzureKeyCredential(openAIKey));
 
 ChatClient chatClient = azureClient.GetChatClient(engine);
+
+// Create an image client
+AzureOpenAIClient azureImageClient = new(
+    new Uri(imageOpenAIEndpoint),
+    new AzureKeyCredential(imageOpenAIKey));
+ChatClient imageChatClient = azureImageClient.GetChatClient(imageEngine);
 
 async static Task<string> GetCurrentWeather(string latitude, string longitude, string unit = "celsius")
 {
@@ -135,7 +149,7 @@ async Task<string> ReadReceipt()
 
         var imageAnalysisResponseText = new StringBuilder();
 
-        ResultCollection<StreamingChatCompletionUpdate> completionUpdates = chatClient.CompleteChatStreaming(messages);
+        ResultCollection<StreamingChatCompletionUpdate> completionUpdates = imageChatClient.CompleteChatStreaming(messages);
 
         foreach (StreamingChatCompletionUpdate completionUpdate in completionUpdates)
         {
@@ -161,12 +175,16 @@ static string CaptureImage()
     string imagePath = Path.Combine(tmpDir, "image.jpg");
 
     // Capture image from webcam
-    using (var capture = new VideoCapture(0))
+    using (var capture = new VideoCapture(0, VideoCaptureAPIs.DSHOW))
     {
         if (!capture.IsOpened())
         {
             throw new ApplicationException("No video devices found.");
         }
+
+        // Set the resolution to match your webcam's resolution
+        capture.Set(VideoCaptureProperties.FrameWidth, 1920); // Set width
+        capture.Set(VideoCaptureProperties.FrameHeight, 1080); // Set height
 
         using (var frame = new Mat())
         {
@@ -178,15 +196,14 @@ static string CaptureImage()
 
             // Adjust brightness and contrast
             Mat adjustedFrame = new Mat();
-            double alpha = 1.5; // Contrast control (1.0-3.0)
-            int beta = 20;     // Brightness control (0-100)
+            double alpha = 1.2; // Contrast control (1.0-3.0)
+            int beta = 10;     // Brightness control (0-100)
             frame.ConvertTo(adjustedFrame, -1, alpha, beta);
 
             // Save the captured image
             Cv2.ImWrite(imagePath, adjustedFrame);
         }
     }
-
     Console.WriteLine($"Image captured and saved.");
     return imagePath;
 }

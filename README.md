@@ -1,6 +1,6 @@
 # MIKE: OpenAI Speech-to-Action Agent
 
-This .NET console application implements an AI agent and integrates with OpenAI to provide various functionalities such as weather information, identity verification, wellness balance checks, image analysis, and email sending. The AI agent responds to voice commands to execute various actions.
+This .NET console application implements an AI agent and integrates with OpenAI (gpt4-omni and gpt4-omni mini) to provide various functionalities such as weather information, identity verification, wellness balance checks, image analysis, and email sending. The AI agent responds to voice commands to execute various actions.
 
 ## Features
 
@@ -14,7 +14,7 @@ This .NET console application implements an AI agent and integrates with OpenAI 
 
 - .NET SDK
 - Azure Subscription
-- OpenAI API Key
+- OpenAI API Keys (Omni-mini used for conversational, Omni used for image analysis)
 - Azure Communication Service Connection String
 - Azure Cognitive Services Speech API Key
 
@@ -24,25 +24,28 @@ Create an `appsettings.json` file in the root directory with the following struc
 
 ```json
 {
-  "OpenAI": {
-    "Key": "your_openai_key",
-    "Endpoint": "your_openai_endpoint",
-    "DeploymentName": "your_openai_deployment_name"
-  },
-  "Speech": {
-    "Key": "your_speech_key",
-    "Region": "your_speech_region"
-  },
-  "CommunicationService": {
-    "ConnectionString": "your_communication_service_connection_string",
-    "Domain": "your_communication_service_domain"
-  }
+    "OpenAI": {
+      "Key": "YOUR_OPENAI_KEY",
+      "Endpoint": "https://YOUR_OPENAI_ENDPOINT",
+      "DeploymentName": "YOUR_CONVERSATION_DEPLOYMENT_NAME",
+      "imageKey": "YOUR_IMAGE_KEY",
+      "imageEndpoint": "https://YOUR_IMAGE_ENDPOINT",
+      "ImageDeploymentName": "YOUR_IMAGE_DEPLOYMENT_NAME"
+    },
+    "Speech": {
+      "Key": "YOUR_SPEECH_KEY",
+      "Region": "YOUR_SPEECH_REGION"
+    },
+    "CommunicationService": {
+      "ConnectionString": "YOUR_COMMUNICATION_SERVICE_CONNECTION_STRING",
+      "Domain": "YOUR_COMMUNICATION_SERVICE_DOMAIN"
+    }
 }
 ```
 
 ## Example JSON Data
 
-Use the following anonymized JSON data for verification and wellness balance checks:
+Use the following anonymized JSON data for verification and wellness balance checks, and make sure to update the code to point to this JSON file location for data extraction:
 
 ```json
 {
