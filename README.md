@@ -2,6 +2,10 @@
 
 This .NET console application implements an AI agent and integrates with OpenAI (gpt4-omni and gpt4-omni mini) to provide various functionalities such as weather information, identity verification, wellness balance checks, image analysis, and email sending. The AI agent responds to voice commands to execute various actions.
 
+## Demo Teaser
+
+![Mike Interaction 1 - Teaser](https://github.com/JawadAminMSFT/mike-ai-agent/blob/main/MIKE%20Interaction%201%20-%20Teaser.m4a)
+
 ## Features
 
 - **Weather Information**: Retrieve current weather details for a specified location.
@@ -70,8 +74,8 @@ Use the following anonymized JSON data for verification and wellness balance che
 
 1. **Clone the repository**:
    ```sh
-   git clone https://github.com/your-repo/openai-agent-console.git
-   cd openai-agent-console
+   git clone https://github.com/your-repo/mike-ai-agent.git
+   cd mike-ai-agent
    ```
 
 2. **Restore dependencies**:
