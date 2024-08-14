@@ -2,6 +2,10 @@
 
 This .NET console application implements an AI agent and integrates with OpenAI to provide various functionalities such as weather information, identity verification, wellness balance checks, image analysis, and email sending. The AI agent responds to voice commands to execute various actions.
 
+## Demo Teaser
+
+![Mike Interaction 1 - Teaser](https://github.com/JawadAminMSFT/mike-ai-agent/blob/main/MIKE%20Interaction%201%20-%20Teaser.m4a)
+
 ## Features
 
 - **Weather Information**: Retrieve current weather details for a specified location.
