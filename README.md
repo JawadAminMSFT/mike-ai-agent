@@ -67,8 +67,8 @@ Use the following anonymized JSON data for verification and wellness balance che
 
 1. **Clone the repository**:
    ```sh
-   git clone https://github.com/your-repo/openai-agent-console.git
-   cd openai-agent-console
+   git clone https://github.com/your-repo/mike-ai-agent.git
+   cd mike-ai-agent
    ```
 
 2. **Restore dependencies**:
