@@ -481,7 +481,7 @@ async Task AskOpenAI(string prompt)
         var speechConfig = SpeechConfig.FromSubscription(speechKey, speechRegion);
 
         // The language of the voice that speaks.
-        speechConfig.SpeechSynthesisVoiceName = "en-US-BrianNeural";
+        speechConfig.SpeechSynthesisVoiceName = "en-US-AndrewMultilingualNeural";
         var audioOutputConfig = AudioConfig.FromDefaultSpeakerOutput();
         using var speechSynthesizer = new SpeechSynthesizer(speechConfig, audioOutputConfig);
         speechSynthesizer.Synthesizing += (sender, args) =>
@@ -586,10 +586,13 @@ async Task ChatWithOpenAI()
 {
     // Should be the locale for the speaker's language.
     var speechConfig = SpeechConfig.FromSubscription(speechKey, speechRegion);
-    speechConfig.SpeechRecognitionLanguage = "en-US";
+    // speechConfig.SpeechRecognitionLanguage = "en-US";
+
+    var autoDetectSourceLanguageConfig = AutoDetectSourceLanguageConfig.FromLanguages(
+        new string[] { "en-US", "bn-IN", "zh-CN", "fr-CA"});
 
     using var audioConfig = AudioConfig.FromDefaultMicrophoneInput();
-    using var speechRecognizer = new SpeechRecognizer(speechConfig, audioConfig);
+    using var speechRecognizer = new SpeechRecognizer(speechConfig, autoDetectSourceLanguageConfig, audioConfig);
     var conversationEnded = false;
 
     while (!conversationEnded)
@@ -612,7 +615,7 @@ async Task ChatWithOpenAI()
                     chatMessages.Clear();
                     chatMessages = new List<ChatMessage>
                     {
-                        new SystemChatMessage("You are a helpful assistant that is succinct and easy to interact with. Ask the user if they need help with anything. Once a task is completed and the user confirms, ask if they need help with anything else."),
+                        new SystemChatMessage("You are a helpful assistant that is succinct and easy to interact with. Ask the user if they need help with anything. Once a task is completed and the user confirms, ask if they need help with anything else. If the user starts using a different language, continue the conversation in that language seamlessly."),
                     };
                     Console.WriteLine("Conversation reset.");
                 }
